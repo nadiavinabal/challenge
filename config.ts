@@ -7,11 +7,11 @@ import { registerAs } from "@nestjs/config";
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
             password: process.env.DB_PASS,
-            port: parseInt(process.env.DB_PORT as string, 10),
+            port: process.env.DB_PORT,
         },
         jwt: {
             secret: process.env.JWT_SECRET,
         },
-        ssl: process.env.POSTGRES_SSL
+        ssl: process.env.DB_SSL
     }
   })

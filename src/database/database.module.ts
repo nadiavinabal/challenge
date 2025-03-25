@@ -3,38 +3,45 @@ import { Client } from 'pg';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import config from 'config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Character } from 'src/films/entities/character.entity';
+import { Film } from 'src/films/entities/film.entity';
+import { Planet } from 'src/films/entities/planet.entity';
+import { Species } from 'src/films/entities/species.entity';
+import { Starship } from 'src/films/entities/starship.entity';
+import { Vehicle } from 'src/films/entities/vehicle.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Global()
 @Module({
-    imports: [
-        ConfigModule.forRoot({
-          load: [config], 
-        }),
-        TypeOrmModule.forRootAsync({
-          imports: [ConfigModule],
-          inject: [ConfigService],
-          useFactory: (configService: ConfigService) => ({
-            type: 'postgres',
-            host: configService.get<string>('config.postgres.host'),
-            port: configService.get<number>('config.postgres.port'),
-            username: configService.get<string>('config.postgres.user'),
-            password: configService.get<string>('config.postgres.password'),
-            database: configService.get<string>('config.postgres.database'),
-            synchronize: false,
-            logging: true,
-            autoLoadEntities: true,
-            // entities: [User, Film, Character, Planet, Species, Starship, Vehicle],
-            ssl: configService.get<string>('config.ssl') === 'true',
-            extra: {
-              ssl:
-                configService.get<string>('config.ssl') === 'true'
-                  ? {
-                      rejectUnauthorized: false,
-                    }
-                  : null,
-            },
-          }),
-        }),
-      ],
+  imports: [
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          type: 'postgres',
+          host: configService.get<string>('DB_HOST'),
+          port: parseInt(configService.get<string>('DB_PORT', '5433'), 10),
+          username: configService.get<string>('DB_USER'),
+          password: configService.get<string>('DB_PASS'),
+          database: configService.get<string>('DB_NAME'),
+          entities: [
+            Character, 
+            Film, 
+            Planet, 
+            Species, 
+            Starship, 
+            Vehicle, 
+            User
+          ],
+          synchronize: false,
+          ssl: configService.get<string>('DB_SSL') === 'true' ? {
+            rejectUnauthorized: false
+          } : false,
+        }
+      },
+    }),
+  ],
+  exports: [TypeOrmModule],
 })
 export class DatabaseModule { }

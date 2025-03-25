@@ -37,4 +37,14 @@ export class CreateFilmDto {
     @IsNotEmpty()
     @IsDateString()
     release_date: Date;
+
+    @ApiProperty({ example: '1977-05-25T03:00:00.000Z'})
+    @IsNotEmpty()
+    @IsDateString()
+    created: Date;
+
+    @ApiProperty({ example: '1977-05-25T03:00:00.000Z'})
+    @IsNotEmpty()
+    @IsDateString()
+    edited: Date;
 }
