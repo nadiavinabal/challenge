@@ -23,6 +23,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             synchronize: false,
             autoLoadEntities: true,
             // entities: [User, Film, Character, Planet, Species, Starship, Vehicle],
+            ssl: configService.get<string>('config.ssl') === 'true',
+            extra: {
+              ssl:
+                configService.get<string>('config.ssl') === 'true'
+                  ? {
+                      rejectUnauthorized: false,
+                    }
+                  : null,
+            },
           }),
         }),
       ],

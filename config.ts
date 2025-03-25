@@ -12,5 +12,6 @@ import { registerAs } from "@nestjs/config";
         jwt: {
             secret: process.env.JWT_SECRET,
         },
+        ssl: process.env.POSTGRES_SSL
     }
   })
