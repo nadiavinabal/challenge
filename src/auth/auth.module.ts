@@ -14,7 +14,7 @@ import config from 'config';
     imports: [UsersModule, PassportModule, JwtModule.registerAsync({
         inject: [config.KEY],
         useFactory: (configService: ConfigType<typeof config>) => ({
-            secret: configService.jwt.secret,  // secret key   
+            secret: configService.jwt.secret || 'secret',  // secret key   
             signOptions: { expiresIn: '1d' }, // token expiration time
         }),
     }),],
