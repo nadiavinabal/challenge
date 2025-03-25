@@ -24,6 +24,10 @@ export class UsersService {
     }
 
     async create(data: CreateUserDto) {
+      const user = await this.userRepository.findOne({ where: { email: data.email } });
+      if (user) {
+        throw new NotFoundException(`user with the ${data.email} already exists`);
+      }
       const newUser = this.userRepository.create(data);
       const hashPassword = await bcrypt.hash(newUser.password, 10); // numeero de iteraciones 10 saltos.
       newUser.password = hashPassword;
