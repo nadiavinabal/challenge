@@ -21,6 +21,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             password: configService.get<string>('config.postgres.password'),
             database: configService.get<string>('config.postgres.database'),
             synchronize: false,
+            logging: true,
             autoLoadEntities: true,
             // entities: [User, Film, Character, Planet, Species, Starship, Vehicle],
             ssl: configService.get<string>('config.ssl') === 'true',
