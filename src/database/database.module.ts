@@ -34,7 +34,7 @@ import { User } from 'src/users/entities/user.entity';
             Vehicle, 
             User
           ],
-          synchronize: false,
+          synchronize: configService.get<string>('DB_SYNC') === 'true',
           ssl: configService.get<string>('DB_SSL') === 'true' ? {
             rejectUnauthorized: false
           } : false,
